@@ -4,6 +4,7 @@ extern crate reqwest;
 use ssh2::Session;
 use std::net::TcpStream;
 use reqwest::Client;
+use std::path::Path;
 
 fn main() {
   let ftp_host = "test.rebex.net:22";
@@ -24,9 +25,10 @@ fn main() {
   println!("Auth");
   let _ = sess.userauth_password(username, password);
   println!("SFTP");
-  let _ = sess.sftp().unwrap();
+  let sftp = sess.sftp().unwrap();
   println!("Connected to SFTP");
+  let _ = sftp.readdir(Path::new("/"));
   let client = Client::new().unwrap();
-  let _ = client.get("https://aws.amazon.com/").send();
+  let _ = client.post("https://aws.amazon.com/").body("Hello").send();
   println!("Ok, try one more time :)");
 }
