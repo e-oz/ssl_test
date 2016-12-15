@@ -4,5 +4,8 @@ version = "0.1.0"
 authors = ["OZ <normandiggs@gmail.com>"]
 
 [dependencies]
-reqwest = "0.2"
-ssh2 = "0.3.1"
+ssh2 = "0.2.5"
+
+[dependencies.rusoto]
+features = ["s3"]
+version = "0.20.0"

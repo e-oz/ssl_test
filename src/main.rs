@@ -1,11 +1,12 @@
 extern crate ssh2;
-extern crate reqwest;
+extern crate rusoto;
 
 use ssh2::Session;
 use std::net::TcpStream;
-use reqwest::Client;
 use std::path::Path;
 use std::io::{Read, BufReader};
+use rusoto::{ChainProvider, Region};
+use rusoto::s3::S3Helper;
 
 fn main() {
   let ftp_host = "test.rebex.net:22";
@@ -46,7 +47,14 @@ fn main() {
     Ok(_) => println!("{}", buffer),
     Err(_) => (),
   }
-  let client = Client::new().unwrap();
-  let _ = client.post("https://aws.amazon.com/").body("Hello").send();
+  //aws
+  let provider = ChainProvider::new();
+  let region = Region::UsWest2;
+  let s3 = S3Helper::new(provider, region);
+  match s3.put_object("purchase.guru", "upload/test.txt", "test".as_bytes()) {
+    Ok(_) => println!("S3: OK"),
+    Err(err) => println!("S3 error: {}", err)
+  }
+  //
   println!("Ok, try one more time :)");
 }
