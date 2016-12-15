@@ -1,0 +1,8 @@
+[package]
+name = "ssl_test"
+version = "0.1.0"
+authors = ["OZ <normandiggs@gmail.com>"]
+
+[dependencies]
+reqwest = "0.2"
+ssh2 = "0.3.1"
